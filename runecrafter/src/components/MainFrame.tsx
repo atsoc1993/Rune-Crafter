@@ -9,7 +9,7 @@ export default function Frame({ tabs }: Props) {
   const tabContentElement = tabs.filter(tab => tab.name === tabSelected)[0].forward
 
   return (
-    <div className='h-full w-full bg-teal-900 p-6 rounded-2xl'>
+    <div className='h-full w-full bg-teal-900 p-6'>
       <div className='h-full w-full bg-teal-800 shadow-2xl shadow-teal-800 p-6 rounded-2xl'>
         <div className='h-full w-full bg-teal-700 shadow-2xl shadow-teal-700 p-6 rounded-2xl'>
           <div className='h-full w-full bg-teal-600 shadow-2xl shadow-teal-600 p-6 rounded-2xl'>
