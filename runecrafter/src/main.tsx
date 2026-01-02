@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { GameStateContext, type GameState, type RuneSupply } from './context/GameStateContext.tsx'
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 
 export default function Main() {
@@ -17,13 +17,13 @@ export default function Main() {
     
     const [runesSupplyState, setRuneSupplyState] = useState<RuneSupply>(runesSupply);
     const [miningLevel, setMiningLevel] = useState<number>(1);
-    const [miningProgress, setMiningProgress] = useState<number>(0);
+    const miningProgress = useRef<number>(0)
     const [essenceCount, setEssenceCount] = useState<number>(0);
 
 
     const startingGameState: GameState = {
         miningLevelState: [miningLevel, setMiningLevel],
-        miningProgress: [miningProgress, setMiningProgress],
+        miningProgress: miningProgress,
         essenceCount: [essenceCount, setEssenceCount],
         runeSupplyState: [runesSupplyState, setRuneSupplyState]
     };
