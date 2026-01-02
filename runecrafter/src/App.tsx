@@ -1,7 +1,6 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useRef } from "react"
 import Frame from "./components/MainFrame"
-import RuneMining from "./components/RuneMiningComponent"
-import Runes from "./components/RunesComponent"
+import RuneMining from "./components/Runes"
 import { GameStateContext } from "./context/GameStateContext"
 
 
@@ -11,28 +10,35 @@ export default function App() {
   if (!gameStateCtx) return;
 
   const [miningLevel, setMiningLevel] = gameStateCtx.miningLevelState
-  const [miningProgress, setMiningProgress] = gameStateCtx.miningProgress
-  const setEssenceCount = gameStateCtx.essenceCount[1]
 
+  const [essenceCount, setEssenceCount] = gameStateCtx.essenceCount
+
+  const lockEssenceCount = useRef<boolean>(false);
 
   const tabs = [
-    { name: 'Runes', forward: Runes() },
-    { name: 'Rune Mining', forward: RuneMining() },
-    { name: 'Rune Crafting', forward: undefined },
+    { name: 'Runes', forward: RuneMining() },
     { name: 'Combat', forward: undefined },
     { name: 'Spell Selection', forward: undefined },
     { name: 'Level', forward: undefined }
   ];
 
   useEffect(() => {
+    const miningProgress = gameStateCtx.miningProgress.current
+    if (lockEssenceCount.current === true && (miningProgress >= 0 && miningProgress < 100)) lockEssenceCount.current = false;
+  }, [essenceCount])
+
+  useEffect(() => {
     const interval = setInterval(() => {
-      let newMiningProgress = miningProgress + miningLevel 
-      if (newMiningProgress >= 100) setEssenceCount(prev => prev + 1);
-      setMiningProgress(newMiningProgress > 100 ? newMiningProgress % 100 : newMiningProgress);
+      let newMiningProgress = gameStateCtx.miningProgress.current + miningLevel 
+      if (newMiningProgress >= 100 && !lockEssenceCount.current) {
+        lockEssenceCount.current = true;
+        setEssenceCount(prev => prev + 1)
+      };
+      gameStateCtx.miningProgress.current = newMiningProgress > 100 ? newMiningProgress % 100 : newMiningProgress
     }, 100)
 
     return () => clearInterval(interval);
-  }, [miningLevel, miningProgress]);
+  }, [miningLevel, gameStateCtx.miningProgress]);
 
   return (
     <Frame tabs={tabs} />
