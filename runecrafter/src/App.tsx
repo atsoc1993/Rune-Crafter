@@ -26,10 +26,10 @@ export default function App() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      let newMiningProgress = miningProgress + miningLevel * 10
+      let newMiningProgress = miningProgress + miningLevel 
       if (newMiningProgress >= 100) setEssenceCount(prev => prev + 1);
-      setMiningProgress(newMiningProgress >= 100 ? newMiningProgress % 100 : newMiningProgress);
-    }, 1000)
+      setMiningProgress(newMiningProgress > 100 ? newMiningProgress % 100 : newMiningProgress);
+    }, 100)
 
     return () => clearInterval(interval);
   }, [miningLevel, miningProgress]);
