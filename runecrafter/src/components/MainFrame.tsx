@@ -1,8 +1,8 @@
 import { useState, type JSX } from "react";
 
-type Props = { 
-
-  tabs: { name: string, forward: JSX.Element | undefined }[] }
+type Props = {
+  tabs: { name: string, forward: JSX.Element | undefined }[]
+}
 
 export default function Frame({ tabs }: Props) {
   const [tabSelected, setTabSelected] = useState<string>(tabs[0].name)
