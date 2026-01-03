@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { GameStateContext, type RuneSupply } from "../context/GameStateContext";
+import { RuneLevels } from "../constants";
 
 
 
@@ -12,7 +13,7 @@ export default function RuneMining() {
     const progressBar = useRef<HTMLDivElement | null>(null);
 
     const miningLevel = gameStateCtx.miningLevelState[0]
-
+    const runeCraftingLevel = gameStateCtx.runeCraftingLevelState[0]
     const essenceCount = gameStateCtx.essenceCount
 
 
@@ -65,12 +66,23 @@ export default function RuneMining() {
             </div>
             <div className='w-full flex justify-evenly flex-row text-center items-center '>
                 {Object.entries(runesSupply[0]).map((rune) => (
-                    <div className={'h-36 w-36 rounded-full content-center bg-white shadow-md shadow-teal-600 inset-shadow-sm text-3xl scale-100 relative transition-transform hover:scale-125 duration-300 ' + (insetShadowColorMap[rune[0]])}
-                        onClick={() => craftRune(rune[0])}>
-                        <p>{rune[0]}: {rune[1]}</p>
-                        <div className="h-35 w-35 border-white border-2 hover:animate-ping rounded-full absolute left-0 top-0">
-                        </div>
-                    </div>
+                    <>
+                        {RuneLevels[rune[0]] <= runeCraftingLevel ?
+                            <div className={'h-36 w-36 rounded-full content-center bg-white shadow-md shadow-teal-600 inset-shadow-sm text-3xl scale-100 relative transition-transform hover:scale-125 duration-300 ' + (insetShadowColorMap[rune[0]])}
+                                onClick={() => craftRune(rune[0])}>
+                                <p>{rune[0]}: {rune[1]}</p>
+                                <div className="h-35 w-35 border-white border-2 hover:animate-ping rounded-full absolute left-0 top-0">
+                                </div>
+                            </div>
+                            :
+                            <div className={'h-36 w-36 rounded-full content-center bg-gray-600 shadow-md shadow-teal-600 inset-shadow-sm text-3xl ' + (insetShadowColorMap[rune[0]])}
+                            >
+                                <p>{rune[0]}</p>
+
+                            </div>
+                        }
+                    </>
+
                 ))}
             </div>
         </div>
