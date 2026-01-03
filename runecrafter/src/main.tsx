@@ -19,11 +19,13 @@ export default function Main() {
     const [miningLevel, setMiningLevel] = useState<number>(1);
     const miningProgress = useRef<number>(0)
     const [essenceCount, setEssenceCount] = useState<number>(0);
+    const [runeCraftingLevel, setRuneCraftingLevel] = useState<number>(1);
 
 
     const startingGameState: GameState = {
         miningLevelState: [miningLevel, setMiningLevel],
         miningProgress: miningProgress,
+        runeCraftingLevelState: [runeCraftingLevel, setRuneCraftingLevel],
         essenceCount: [essenceCount, setEssenceCount],
         runeSupplyState: [runesSupplyState, setRuneSupplyState]
     };
