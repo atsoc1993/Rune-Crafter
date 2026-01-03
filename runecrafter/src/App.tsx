@@ -25,7 +25,7 @@ export default function App() {
   useEffect(() => {
     const miningProgress = gameStateCtx.miningProgress.current
     if (lockEssenceCount.current === true && (miningProgress >= 0 && miningProgress < 100)) lockEssenceCount.current = false;
-  }, [essenceCount])
+  }, [essenceCount, gameStateCtx.miningProgress.current])
 
   useEffect(() => {
     const interval = setInterval(() => {
